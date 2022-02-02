@@ -1,8 +1,8 @@
 # Alkira GCP Connector - Terraform Module
-This module makes it easy to provision an [Azure Virtual Network](https://cloud.google.com/vpc) and connect it through [Alkira](htts://alkira.com).
+This module makes it easy to provision an [GCP VPC](https://cloud.google.com/vpc) and connect it through [Alkira](htts://alkira.com).
 
 ## What it does
-- Build a [VNet](https://cloud.google.com/vpc) and one or more [subnets](https://cloud.google.com/vpc/docs/vpc#subnet-ranges)
+- Build a [VPC](https://cloud.google.com/vpc) and one or more [subnets](https://cloud.google.com/vpc/docs/vpc#subnet-ranges)
 - Create an [Alkira Connector](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/resources/connector_gcp_vpc) for the new VPC
 - Apply an existing [Billing Tag](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/billing_tag) to the connector
 - Place resources in an existing [segment](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/segment) and [group](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/group)
