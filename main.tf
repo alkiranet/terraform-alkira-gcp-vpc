@@ -6,6 +6,11 @@ locals {
     try("${subnet.name}/${subnet.cidr}/${subnet.region}") => subnet
   }
 
+  # Filter tag IDs
+  tag_id_list = [
+    for v in data.alkira_billing_tag.tag : v.id
+  ]
+
 }
 
 /*
@@ -22,7 +27,8 @@ data "alkira_group" "group" {
 }
 
 data "alkira_billing_tag" "tag" {
-  name = var.billing_tag
+  for_each = toset(var.billing_tags)
+  name     = each.key
 }
 
 data "alkira_credential" "credential" {
@@ -52,15 +58,16 @@ resource "alkira_connector_gcp_vpc" "connector" {
   # GCP values
   name         = var.name
   gcp_vpc_name = var.name
-  gcp_region   = var.gcp_region
+  gcp_region   = var.region
   gcp_vpc_id   = google_compute_network.vpc.id
 
-  # CXP values
+  # Connector values
+  enabled         = var.enabled
   cxp             = var.cxp
   size            = var.size
   group           = data.alkira_group.group.name
   segment_id      = data.alkira_segment.segment.id
-  billing_tag_ids = [data.alkira_billing_tag.tag.id]
   credential_id   = data.alkira_credential.credential.id
+  billing_tag_ids = local.tag_id_list
 
 }

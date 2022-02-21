@@ -4,6 +4,12 @@ variable "project_id" {
   sensitive   = true
 }
 
+variable "enabled" {
+  description = "Status of connector; Default is true"
+  type        = bool
+  default     = true
+}
+
 variable "name" {
   description = "Name of cloud network and Alkira connector"
   type        = string
@@ -21,14 +27,15 @@ variable "routing_mode" {
   default     = "GLOBAL"
 }
 
-variable "gcp_region" {
+variable "region" {
   description = "GCP region for routing Alkira"
   type        = string
 }
 
-variable "billing_tag" {
-  description = "Alkira - billing tag"
-  type        = string
+variable "billing_tags" {
+  description = "List of billing tag names to apply to connector"
+  type        = list(string)
+  default     = []
 }
 
 variable "credential" {

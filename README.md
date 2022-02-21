@@ -2,11 +2,47 @@
 This module makes it easy to provision an [GCP VPC](https://cloud.google.com/vpc) and connect it through [Alkira](htts://alkira.com).
 
 ## What it does
-- Build a [VPC](https://cloud.google.com/vpc) and one or more [subnets](https://cloud.google.com/vpc/docs/vpc#subnet-ranges)
+- Build a [VPC](https://cloud.google.com/vpc) and one or more [Subnets](https://cloud.google.com/vpc/docs/vpc#subnet-ranges)
 - Create an [Alkira Connector](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/resources/connector_gcp_vpc) for the new VPC
-- Apply an existing [Billing Tag](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/billing_tag) to the connector
-- Place resources in an existing [segment](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/segment) and [group](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/group)
+- Apply [Billing Tags](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/billing_tag) to the connector
+- Place resources in an existing [Segment](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/segment) and [Group](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/group)
 
+## Example Usage
+Alkira offers enhanced capabilities for how traffic gets routed to and from _Cloud Exchange Points (CXPs)_.
+
+### Onboard VPC
+By default, all traffic gets routed from a given _virtual network_ to Alkira CXP using the _default-route_.
+
+```hcl
+module "gcp_vpc" {
+  source = "alkiranet/gcp-vpc/alkira"
+
+  name       = "gcp-east"
+  project_id = "project"
+  region     = "us-east4"
+
+  subnets = [
+    {
+      name   = "subnet-01"
+      cidr   = "10.1.1.0/24"
+      region = "us-east4"
+    },
+
+    {
+      name   = "subnet-02"
+      cidr   = "10.1.2.0/24"
+      region = "us-east4"
+    }
+  ]
+
+  cxp          = "US-EAST-2"
+  segment      = "corporate"
+  group        = "non-prod"
+  credential   = "gcp-auth"
+  billing_tags = ["cloud", "network"]
+
+}
+```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -14,15 +50,15 @@ This module makes it easy to provision an [GCP VPC](https://cloud.google.com/vpc
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.1 |
-| <a name="requirement_alkira"></a> [alkira](#requirement\_alkira) | >= 0.8.0 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | <5.0,>= 2.12 |
+| <a name="requirement_alkira"></a> [alkira](#requirement\_alkira) | >= 0.8.1 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | <5.0,>= 3.83 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_alkira"></a> [alkira](#provider\_alkira) | >= 0.8.0 |
-| <a name="provider_google"></a> [google](#provider\_google) | <5.0,>= 2.12 |
+| <a name="provider_alkira"></a> [alkira](#provider\_alkira) | >= 0.8.1 |
+| <a name="provider_google"></a> [google](#provider\_google) | <5.0,>= 3.83 |
 
 ## Modules
 
@@ -44,13 +80,14 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_billing_tag"></a> [billing\_tag](#input\_billing\_tag) | Alkira - billing tag | `string` | n/a | yes |
+| <a name="input_billing_tags"></a> [billing\_tags](#input\_billing\_tags) | List of billing tag names to apply to connector | `list(string)` | `[]` | no |
 | <a name="input_credential"></a> [credential](#input\_credential) | Alkira - cloud credential | `string` | n/a | yes |
 | <a name="input_cxp"></a> [cxp](#input\_cxp) | Alkira - CXP to add connector to | `string` | n/a | yes |
-| <a name="input_gcp_region"></a> [gcp\_region](#input\_gcp\_region) | GCP region for routing Alkira | `string` | n/a | yes |
+| <a name="input_enabled"></a> [enabled](#input\_enabled) | Status of connector; Default is true | `bool` | `true` | no |
 | <a name="input_group"></a> [group](#input\_group) | Alkira - group to add connector to | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of cloud network and Alkira connector | `string` | n/a | yes |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | GCP project ID that owns or contains calling entity | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | GCP region for routing Alkira | `string` | n/a | yes |
 | <a name="input_routing_mode"></a> [routing\_mode](#input\_routing\_mode) | VPC routing mode | `string` | `"GLOBAL"` | no |
 | <a name="input_segment"></a> [segment](#input\_segment) | Alkira - segment to add connector to | `string` | n/a | yes |
 | <a name="input_size"></a> [size](#input\_size) | Alkira - connector size | `string` | `"SMALL"` | no |
