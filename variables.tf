@@ -4,6 +4,12 @@ variable "project_id" {
   sensitive   = true
 }
 
+variable "enabled" {
+  description = "Status of connector; Default is true"
+  type        = bool
+  default     = true
+}
+
 variable "name" {
   description = "Name of cloud network and Alkira connector"
   type        = string

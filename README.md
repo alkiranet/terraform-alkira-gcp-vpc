@@ -2,11 +2,47 @@
 This module makes it easy to provision an [GCP VPC](https://cloud.google.com/vpc) and connect it through [Alkira](htts://alkira.com).
 
 ## What it does
-- Build a [VPC](https://cloud.google.com/vpc) and one or more [subnets](https://cloud.google.com/vpc/docs/vpc#subnet-ranges)
+- Build a [VPC](https://cloud.google.com/vpc) and one or more [Subnets](https://cloud.google.com/vpc/docs/vpc#subnet-ranges)
 - Create an [Alkira Connector](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/resources/connector_gcp_vpc) for the new VPC
-- Apply an existing [Billing Tag](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/billing_tag) to the connector
-- Place resources in an existing [segment](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/segment) and [group](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/group)
+- Apply [Billing Tags](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/billing_tag) to the connector
+- Place resources in an existing [Segment](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/segment) and [Group](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/group)
 
+## Example Usage
+Alkira offers enhanced capabilities for how traffic gets routed to and from _Cloud Exchange Points (CXPs)_.
+
+### Onboard VPC
+By default, all traffic gets routed from a given _virtual network_ to Alkira CXP using the _default-route_.
+
+```hcl
+module "gcp_vpc" {
+  source = "alkiranet/gcp-vpc/alkira"
+
+  name       = "gcp-east"
+  project_id = "project"
+  region     = "us-east4"
+
+  subnets = [
+    {
+      name   = "subnet-01"
+      cidr   = "10.1.1.0/24"
+      region = "us-east4"
+    },
+
+    {
+      name   = "subnet-02"
+      cidr   = "10.1.2.0/24"
+      region = "us-east4"
+    }
+  ]
+
+  cxp          = "US-EAST-2"
+  segment      = "corporate"
+  group        = "non-prod"
+  credential   = "gcp-auth"
+  billing_tags = ["cloud", "network"]
+
+}
+```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements

@@ -61,7 +61,8 @@ resource "alkira_connector_gcp_vpc" "connector" {
   gcp_region   = var.region
   gcp_vpc_id   = google_compute_network.vpc.id
 
-  # CXP values
+  # Connector values
+  enabled         = var.enabled
   cxp             = var.cxp
   size            = var.size
   group           = data.alkira_group.group.name
