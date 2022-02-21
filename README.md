@@ -50,15 +50,15 @@ module "gcp_vpc" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.1 |
-| <a name="requirement_alkira"></a> [alkira](#requirement\_alkira) | >= 0.8.0 |
-| <a name="requirement_google"></a> [google](#requirement\_google) | <5.0,>= 2.12 |
+| <a name="requirement_alkira"></a> [alkira](#requirement\_alkira) | >= 0.8.1 |
+| <a name="requirement_google"></a> [google](#requirement\_google) | <5.0,>= 3.83 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_alkira"></a> [alkira](#provider\_alkira) | >= 0.8.0 |
-| <a name="provider_google"></a> [google](#provider\_google) | <5.0,>= 2.12 |
+| <a name="provider_alkira"></a> [alkira](#provider\_alkira) | >= 0.8.1 |
+| <a name="provider_google"></a> [google](#provider\_google) | <5.0,>= 3.83 |
 
 ## Modules
 
@@ -80,13 +80,14 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_billing_tag"></a> [billing\_tag](#input\_billing\_tag) | Alkira - billing tag | `string` | n/a | yes |
+| <a name="input_billing_tags"></a> [billing\_tags](#input\_billing\_tags) | List of billing tag names to apply to connector | `list(string)` | `[]` | no |
 | <a name="input_credential"></a> [credential](#input\_credential) | Alkira - cloud credential | `string` | n/a | yes |
 | <a name="input_cxp"></a> [cxp](#input\_cxp) | Alkira - CXP to add connector to | `string` | n/a | yes |
-| <a name="input_gcp_region"></a> [gcp\_region](#input\_gcp\_region) | GCP region for routing Alkira | `string` | n/a | yes |
+| <a name="input_enabled"></a> [enabled](#input\_enabled) | Status of connector; Default is true | `bool` | `true` | no |
 | <a name="input_group"></a> [group](#input\_group) | Alkira - group to add connector to | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of cloud network and Alkira connector | `string` | n/a | yes |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | GCP project ID that owns or contains calling entity | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | GCP region for routing Alkira | `string` | n/a | yes |
 | <a name="input_routing_mode"></a> [routing\_mode](#input\_routing\_mode) | VPC routing mode | `string` | `"GLOBAL"` | no |
 | <a name="input_segment"></a> [segment](#input\_segment) | Alkira - segment to add connector to | `string` | n/a | yes |
 | <a name="input_size"></a> [size](#input\_size) | Alkira - connector size | `string` | `"SMALL"` | no |

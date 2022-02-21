@@ -5,12 +5,12 @@ terraform {
 
     alkira = {
       source  = "alkiranet/alkira"
-      version = ">= 0.8.0"
+      version = ">= 0.8.1"
     }
 
     google = {
       source  = "hashicorp/google"
-      version = "<5.0,>= 2.12"
+      version = "<5.0,>= 3.83"
     }
 
   }
