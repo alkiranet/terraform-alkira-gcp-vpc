@@ -21,7 +21,7 @@ variable "routing_mode" {
   default     = "GLOBAL"
 }
 
-variable "gcp_region" {
+variable "region" {
   description = "GCP region for routing Alkira"
   type        = string
 }
