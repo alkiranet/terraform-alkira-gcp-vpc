@@ -7,30 +7,26 @@ This module makes it easy to provision an [GCP VPC](https://cloud.google.com/vpc
 - Apply [Billing Tags](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/billing_tag) to the connector
 - Place resources in an existing [Segment](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/segment) and [Group](https://registry.terraform.io/providers/alkiranet/alkira/latest/docs/data-sources/group)
 
-## Example Usage
-Alkira offers enhanced capabilities for how traffic gets routed to and from _Cloud Exchange Points (CXPs)_.
-
-### Onboard VPC
-By default, all traffic gets routed from a given _virtual network_ to Alkira CXP using the _default-route_.
+## Basic Usage
 
 ```hcl
 module "gcp_vpc" {
   source = "alkiranet/gcp-vpc/alkira"
 
-  name       = "gcp-east"
+  name       = "vpc-east"
   project_id = "project"
   region     = "us-east4"
 
   subnets = [
     {
-      name   = "subnet-01"
-      cidr   = "10.1.1.0/24"
+      name   = "app-subnet-a"
+      cidr   = "10.10.1.0/24"
       region = "us-east4"
     },
 
     {
-      name   = "subnet-02"
-      cidr   = "10.1.2.0/24"
+      name   = "app-subnet-b"
+      cidr   = "10.10.2.0/24"
       region = "us-east4"
     }
   ]
@@ -38,13 +34,12 @@ module "gcp_vpc" {
   cxp          = "US-EAST-2"
   segment      = "corporate"
   group        = "non-prod"
-  credential   = "gcp-auth"
   billing_tags = ["cloud", "network"]
+  credential   = "gcp-auth"
 
 }
 ```
-
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -91,7 +86,7 @@ No modules.
 | <a name="input_routing_mode"></a> [routing\_mode](#input\_routing\_mode) | VPC routing mode | `string` | `"GLOBAL"` | no |
 | <a name="input_segment"></a> [segment](#input\_segment) | Alkira - segment to add connector to | `string` | n/a | yes |
 | <a name="input_size"></a> [size](#input\_size) | Alkira - connector size | `string` | `"SMALL"` | no |
-| <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets to create for cloud network | `list(map(string))` | <pre>[<br>  {}<br>]</pre> | no |
+| <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets to create for cloud network | `list(map(string))` | n/a | yes |
 
 ## Outputs
 
@@ -106,4 +101,4 @@ No modules.
 | <a name="output_subnet"></a> [subnet](#output\_subnet) | GCP subnet configuration |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | GCP VPC ID |
 | <a name="output_vpc_name"></a> [vpc\_name](#output\_vpc\_name) | GCP VPC name |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
